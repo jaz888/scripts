@@ -58,7 +58,7 @@ if __name__=="__main__":
         status,result,data=http_request()
         #print status,result
         #print data
-        if data.find('provide an always exist course number as a flag to determin if system is down')==-1:
+        if data.find('provide the number of an always existing course as a flag to determin if the system is down')==-1:
             print 'system down (',time.strftime('%H:%M',time.localtime(time.time())),')'
             time.sleep(600)
         else:
