@@ -19,11 +19,11 @@ def http_request():
 'MDASKEYY':'COMPUTER & INFO SCI & ',
 'REGCSE':'',
 'searchby':'D',
-#REGDEPT can be found in the post header of any course search request
+# 0. the department in which the course is
 'REGDEPT':'COMPUTER & INFO SCI & ',
 'CRSEANYD':'Y',
 'CRSEANYT':'Y',
-#MDASSTTE and MDASCACH can be found in the page source of any course search result page
+# 1. MDASSTTE and MDASCACH can be found in the page source of any course searching page after you log in
 'MDASSTTE':'T0099581M0002069', 
 'MDASCACH':'00081529',
     })
@@ -58,19 +58,25 @@ if __name__=="__main__":
         status,result,data=http_request()
         #print status,result
         #print data
-        if data.find('provide the number of an always existing course as a flag to determin if the system is down')==-1:
+        # 2. provide the number of an always existing course as a flag to determin if the system is down
+        # for example CAP5705 :)
+        if data.find('CAP5705')==-1:
             print 'system down (',time.strftime('%H:%M',time.localtime(time.time())),')'
             time.sleep(600)
         else:
-            if data.find('your desired course number')!=-1:
+            # 3. your desired course number
+            course = 'COT5405'
+            if data.find(course)!=-1:
                 gap += 10
-                print '--found (',time.strftime('%H:%M',time.localtime(time.time())),')'
-                msg = MIMEText("Find XX\n")
-                msg['Subject'] = 'Find XX\n'
+                print course+' found (',time.strftime('%H:%M',time.localtime(time.time())),')'
+                msg = MIMEText("Find "+course+"\n")
+                msg['Subject'] = "Find "+course+"\n"
+                # 4. fill out your email address
                 msg['From'], msg['To'] = "your email address", "your email address"
                 s = smtplib.SMTP('smtp.gmail.com', 587)
                 s.ehlo()
                 s.starttls()
+                # 5. provide your email password
                 s.login(msg['From'], 'your email password')
                 try:
                    # Python 3.2.1
@@ -80,7 +86,7 @@ if __name__=="__main__":
                    s.sendmail(msg['From'], [msg['To']], msg.as_string())
                 s.quit()
             else:
-                print 'Algo not found (',time.strftime('%H:%M',time.localtime(time.time())),')'
+                print course+' not found (',time.strftime('%H:%M',time.localtime(time.time())),')'
 
         time.sleep(gap*30)
 
