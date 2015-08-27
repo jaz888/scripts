@@ -36,6 +36,7 @@ def http_request():
 "Connection":"keep-alive",
 "Content-Length":"175",
 "Content-Type":"application/x-www-form-urlencoded",
+# 2. find your cookie in Chrome development mode (inspect element -> network -> check the post request )
 "Cookie":"myRecordStatus=block; treqStatus=none; pheadStatus=block; isiscookietest=it%20works; regStatus=block; eagAuxVal=XmN6240XlwAObEq0; _shibsession_75726e3a6564753a75666c3a70726f643a303031373175726e3a6564753a75666c3a70726f643a3030313731=_493ce472594530569c1225562fefd6f7; GSMsetBy=redirect; UF_GSM=PUxxQyhEil0W%2BsHnZRtSeQ%3D%3D; treqStatus=none; myRecordStatus=block; myAssessmentStatus=none; advisingStatus=none; elearnStatus=none; evalsStatus=none; finAidStatus=none; finSvcsStatus=block; oAcadStatus=block; oAdvisStatus=none; oFinanStatus=none; oGradStatus=none; oPersStatus=none; oSvcsStatus=none; isiscookieConfirm=yes; pheadStatus=block",
 "Host":"www.isis.ufl.edu",
 "Origin":"https://www.isis.ufl.edu",
@@ -58,13 +59,13 @@ if __name__=="__main__":
         status,result,data=http_request()
         #print status,result
         #print data
-        # 2. provide the number of an always existing course as a flag to determin if the system is down
+        # 3. provide the number of an always existing course as a flag to determin if the system is down
         # for example CAP5705 :)
         if data.find('CAP5705')==-1:
             print 'system down (',time.strftime('%H:%M',time.localtime(time.time())),')'
             time.sleep(600)
         else:
-            # 3. your desired course number
+            # 4. your desired course number
             course = 'COT5405'
             if data.find(course)!=-1:
                 gap += 10
@@ -76,7 +77,7 @@ if __name__=="__main__":
                 s = smtplib.SMTP('smtp.gmail.com', 587)
                 s.ehlo()
                 s.starttls()
-                # 5. provide your email password
+                # 6. provide your email password
                 s.login(msg['From'], 'your email password')
                 try:
                    # Python 3.2.1
